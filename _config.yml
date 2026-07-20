@@ -1,0 +1,27 @@
+title: ORMS Lab
+description: Laboratory for Off-Road Mobility System, Chonnam National University
+url: ""
+baseurl: ""
+
+collections:
+  members:
+    output: false
+  publications:
+    output: false
+  projects:
+    output: false
+  news:
+    output: false
+  gallery:
+    output: false
+  courses:
+    output: false
+
+exclude:
+  - README.md
+  - GUIDE_MEMBERS.md
+  - preview.html
+  - _tools_render.js
+  - Gemfile
+  - Gemfile.lock
+  - vendor

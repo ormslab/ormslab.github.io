@@ -1,0 +1,127 @@
+# Decap CMS configuration
+# TODO(Jihwan): replace REPO and base_url before deploying. See README.md.
+backend:
+  name: github
+  repo: ormslab/ormslab.github.io
+  branch: main
+  base_url: https://YOUR-OAUTH-PROXY.workers.dev   # <-- change to your OAuth proxy URL
+
+media_folder: "assets/uploads"
+public_folder: "/assets/uploads"
+
+collections:
+  - name: news
+    label: "News (소식)"
+    label_singular: "News post"
+    folder: "_news"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    fields:
+      - { label: "Title (제목)", name: title, widget: string }
+      - { label: "Date (날짜)", name: date, widget: datetime, format: "YYYY-MM-DD", time_format: false }
+      - { label: "Image (대표 사진, 선택)", name: image, widget: image, required: false }
+      - { label: "Body (내용)", name: body, widget: markdown }
+
+  - name: gallery
+    label: "Gallery (사진첩)"
+    label_singular: "Photo"
+    folder: "_gallery"
+    create: true
+    fields:
+      - { label: "Title (사진 제목)", name: title, widget: string }
+      - { label: "Date (날짜)", name: date, widget: datetime, format: "YYYY-MM-DD", time_format: false }
+      - { label: "Photo (사진)", name: image, widget: image }
+
+  - name: courses
+    label: "Courses (강의)"
+    label_singular: "Course"
+    folder: "_courses"
+    create: true
+    fields:
+      - { label: "Course name (과목명)", name: title, widget: string }
+      - { label: "Course code (과목코드, 선택)", name: code, widget: string, required: false }
+      - { label: "Semester (학기, 예: Fall 2026)", name: semester, widget: string }
+      - { label: "Order (정렬 순서, 낮을수록 위)", name: order, widget: number, default: 1 }
+      - { label: "Description (설명)", name: body, widget: markdown }
+
+  - name: members
+    label: "Members (구성원)"
+    label_singular: "Member"
+    folder: "_members"
+    create: true
+    fields:
+      - { label: "Name (이름, 영문)", name: name, widget: string }
+      - label: "Category (구분)"
+        name: category
+        widget: select
+        options: ["Professor", "Graduate Student", "Undergraduate Student", "Alumni"]
+      - { label: "Position (직책, 예: M.S. Student)", name: position, widget: string }
+      - { label: "Photo (사진, 선택)", name: photo, widget: image, required: false }
+      - { label: "Research interests (관심 분야, 선택)", name: interests, widget: string, required: false }
+      - { label: "Email (선택)", name: email, widget: string, required: false }
+      - { label: "Current affiliation (졸업 후 소속, Alumni만, 선택)", name: current, widget: string, required: false }
+      - { label: "Order (정렬 순서)", name: order, widget: number, default: 1 }
+      - { label: "Bio (추가 소개 — 학력·수상·프로젝트 등, 선택)", name: body, widget: markdown, required: false }
+
+  - name: publications
+    label: "Publications (논문/특허)"
+    label_singular: "Publication"
+    folder: "_publications"
+    create: true
+    slug: "{{year}}-{{slug}}"
+    fields:
+      - { label: "Title (제목)", name: title, widget: string }
+      - { label: "Authors (저자, 예: J. Oh, J. H. Kim)", name: authors, widget: string }
+      - label: "Type (종류)"
+        name: type
+        widget: select
+        options: ["Journal", "Conference", "Patent"]
+      - { label: "Year (연도)", name: year, widget: number, value_type: int }
+      - { label: "Journal/Conference name (게재지·학회명)", name: venue, widget: string, required: false }
+      - { label: "Volume/pages etc. (권·호·페이지, 선택)", name: detail, widget: string, required: false }
+      - { label: "DOI (예: 10.1234/abcd, 선택)", name: doi, widget: string, required: false }
+
+  - name: projects
+    label: "Projects (연구과제)"
+    label_singular: "Project"
+    folder: "_projects"
+    create: true
+    fields:
+      - { label: "Project title (과제명)", name: title, widget: string }
+      - { label: "Funder (발주처, 예: 농림축산식품부)", name: funder, widget: string }
+      - { label: "Period (기간, 예: 2024.01 – 2026.12)", name: period, widget: string }
+      - { label: "Start date (시작일, 정렬용)", name: start, widget: datetime, format: "YYYY-MM-DD", time_format: false }
+      - label: "Status (상태)"
+        name: status
+        widget: select
+        options: ["Ongoing", "Completed"]
+      - { label: "Summary (요약, 선택)", name: summary, widget: string, required: false }
+
+  - name: research
+    label: "Research topics (연구 분야)"
+    label_singular: "Research topic"
+    folder: "_research"
+    create: true
+    fields:
+      - { label: "Topic title", name: title, widget: string }
+      - { label: "Order (정렬 순서)", name: order, widget: number, default: 1 }
+      - { label: "Summary (한두 문장 요약)", name: summary, widget: text }
+      - { label: "Applications (응용 분야, 선택)", name: applications, widget: string, required: false }
+      - { label: "Image (대표 이미지, 선택)", name: image, widget: image, required: false }
+
+  - name: settings
+    label: "Site settings (사이트 설정)"
+    files:
+      - name: general
+        label: "General settings"
+        file: "_data/settings.yml"
+        fields:
+          - { label: "Lab short name", name: lab_name, widget: string }
+          - { label: "Lab full name", name: lab_full_name, widget: string }
+          - { label: "Tagline (메인 문구)", name: tagline, widget: string }
+          - { label: "Department", name: department, widget: string }
+          - { label: "University", name: university, widget: string }
+          - { label: "Address", name: address, widget: string }
+          - { label: "Email", name: email, widget: string }
+          - { label: "Phone (선택)", name: phone, widget: string, required: false }
+          - { label: "Recruiting notice (모집 안내문)", name: recruit_notice, widget: text }

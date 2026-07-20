@@ -1,0 +1,287 @@
+---
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{ site.data.settings.lab_name }} — {{ site.data.settings.lab_full_name }}</title>
+<meta name="description" content="{{ site.data.settings.lab_full_name }}, {{ site.data.settings.university }}">
+<link rel="icon" type="image/png" href="{{ '/assets/images/favicon.png' | relative_url }}">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
+</head>
+<body>
+
+<header class="nav" id="navbar">
+  <div class="nav-inner">
+    <a href="#home" class="nav-logo"><img src="{{ '/assets/images/logo.png' | relative_url }}" alt="ORMS Lab — Lab. for Off-Road Mobility System"></a>
+    <button class="nav-toggle" id="navToggle" aria-label="Menu">&#9776;</button>
+    <nav class="nav-links" id="navLinks">
+      <a href="#home" class="nav-link">Home</a>
+      <a href="#research" class="nav-link">Research</a>
+      <a href="#members" class="nav-link">Members</a>
+      <a href="#publications" class="nav-link">Publications</a>
+      <a href="#projects" class="nav-link">Projects</a>
+      <a href="#board" class="nav-link">Board</a>
+      <a href="#contact" class="nav-link">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ============ HOME ============ -->
+<section id="home" class="hero">
+  <div class="hero-inner">
+    <div class="hero-text">
+      <p class="hero-kicker">{{ site.data.settings.university }} · {{ site.data.settings.department }}</p>
+      <h1>{{ site.data.settings.lab_full_name }}</h1>
+      <p class="hero-tagline">{{ site.data.settings.tagline }}</p>
+      <div class="hero-actions">
+        <a href="#research" class="btn btn-primary">Explore Our Research</a>
+        <a href="#contact" class="btn btn-ghost">Join Us</a>
+      </div>
+    </div>
+    <div class="hero-img">
+      <img src="{{ '/assets/images/hero-transmission.jpg' | relative_url }}" alt="Tractor transmission simulation model">
+    </div>
+  </div>
+</section>
+
+<!-- ============ RESEARCH ============ -->
+<section id="research" class="section">
+  <div class="container">
+    <h2 class="section-title">Research</h2>
+    <p class="section-lead">Off-road mobility systems — agricultural machinery, construction equipment, and beyond. We cover the full cycle of <strong>design</strong>, <strong>analysis</strong>, and <strong>test &amp; evaluation</strong>.</p>
+    <div class="research-grid">
+      {% assign topics = site.research | sort: "order" %}
+      {% for t in topics %}
+      <article class="research-card">
+        {% if t.image %}<div class="research-img"><img src="{{ t.image | relative_url }}" alt="{{ t.title }}" loading="lazy"></div>{% endif %}
+        <div class="research-body">
+          <span class="research-num">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span>
+          <h3>{{ t.title }}</h3>
+          <p>{{ t.summary }}</p>
+          {% if t.applications %}<p class="research-apps"><strong>Applications:</strong> {{ t.applications }}</p>{% endif %}
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ============ MEMBERS ============ -->
+<section id="members" class="section section-alt">
+  <div class="container">
+    <h2 class="section-title">Members</h2>
+    {% assign profs = site.members | where: "category", "Professor" %}
+    {% for m in profs %}
+    <div class="prof-card">
+      <img class="prof-photo" src="{{ m.photo | relative_url }}" alt="{{ m.name }}">
+      <div class="prof-info">
+        <h3>{{ m.name }}</h3>
+        <p class="member-role">{{ m.position }}</p>
+        {% if m.email %}<p class="member-email"><a href="mailto:{{ m.email }}">{{ m.email }}</a></p>{% endif %}
+        <div class="prof-bio">{{ m.content | markdownify }}</div>
+      </div>
+    </div>
+    {% endfor %}
+
+    {% assign grads = site.members | where: "category", "Graduate Student" | sort: "order" %}
+    {% if grads.size > 0 %}
+    <h3 class="member-group-title">Graduate Students</h3>
+    <div class="member-wide-grid">
+      {% for m in grads %}
+      <div class="member-wide-card">
+        {% if m.photo %}<img class="member-wide-photo" src="{{ m.photo | relative_url }}" alt="{{ m.name }}" loading="lazy">{% else %}<div class="member-placeholder member-wide-photo">{{ m.name | slice: 0 }}</div>{% endif %}
+        <div class="member-wide-info">
+          <h4>{{ m.name }}</h4>
+          <p class="member-role">{{ m.position }}</p>
+          {% if m.interests %}<p class="member-detail"><strong>Research interests:</strong> {{ m.interests }}</p>{% endif %}
+          {% if m.email %}<p class="member-email"><a href="mailto:{{ m.email }}">{{ m.email }}</a></p>{% endif %}
+          {% if m.content != "" %}<div class="member-bio">{{ m.content | markdownify }}</div>{% endif %}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    {% assign undergrads = site.members | where: "category", "Undergraduate Student" | sort: "order" %}
+    {% if undergrads.size > 0 %}
+    <h3 class="member-group-title">Undergraduate Students</h3>
+    <div class="member-grid">
+      {% for m in undergrads %}
+      <div class="member-card">
+        {% if m.photo %}<img src="{{ m.photo | relative_url }}" alt="{{ m.name }}" loading="lazy">{% else %}<div class="member-placeholder">{{ m.name | slice: 0 }}</div>{% endif %}
+        <h4>{{ m.name }}</h4>
+        <p class="member-role">{{ m.position }}</p>
+        {% if m.interests %}<p class="member-interests">{{ m.interests }}</p>{% endif %}
+        {% if m.email %}<p class="member-email"><a href="mailto:{{ m.email }}">{{ m.email }}</a></p>{% endif %}
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    {% assign alumni = site.members | where: "category", "Alumni" | sort: "order" %}
+    {% if alumni.size > 0 %}
+    <h3 class="member-group-title">Alumni</h3>
+    <ul class="alumni-list">
+      {% for m in alumni %}
+      <li class="alumni-item">
+        <span class="alumni-name">{{ m.name }}</span>
+        <span class="alumni-degree">{{ m.position }}</span>
+        {% if m.current %}<span class="alumni-current">→ {{ m.current }}</span>{% endif %}
+      </li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+  </div>
+</section>
+
+<!-- ============ PUBLICATIONS ============ -->
+<section id="publications" class="section">
+  <div class="container">
+    <h2 class="section-title">Publications</h2>
+    <div class="pub-filters" id="pubFilters">
+      <button class="pub-filter active" data-type="all">All</button>
+      <button class="pub-filter" data-type="Journal">Journal</button>
+      <button class="pub-filter" data-type="Conference">Conference</button>
+      <button class="pub-filter" data-type="Patent">Patent</button>
+    </div>
+    {% assign pubs = site.publications | sort: "year" | reverse %}
+    {% assign years = pubs | map: "year" | uniq %}
+    {% for y in years %}
+    <div class="pub-year-block">
+      <h3 class="pub-year">{{ y }}</h3>
+      <ul class="pub-list">
+        {% for p in pubs %}{% if p.year == y %}
+        <li class="pub-item" data-type="{{ p.type }}">
+          <span class="pub-badge pub-badge-{{ p.type | downcase }}">{{ p.type }}</span>
+          <div>
+            <p class="pub-title">{% if p.doi %}<a href="https://doi.org/{{ p.doi }}" target="_blank" rel="noopener">{{ p.title }}</a>{% else %}{{ p.title }}{% endif %}</p>
+            <p class="pub-meta">{{ p.authors }}{% if p.venue %} · <em>{{ p.venue }}</em>{% endif %}{% if p.detail %} · {{ p.detail }}{% endif %}</p>
+          </div>
+        </li>
+        {% endif %}{% endfor %}
+      </ul>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+<!-- ============ PROJECTS ============ -->
+<section id="projects" class="section section-alt">
+  <div class="container">
+    <h2 class="section-title">Projects</h2>
+    {% assign ongoing = site.projects | where: "status", "Ongoing" | sort: "start" | reverse %}
+    {% assign done = site.projects | where: "status", "Completed" | sort: "start" | reverse %}
+    {% if ongoing.size > 0 %}
+    <h3 class="proj-group"><span class="dot dot-on"></span>Ongoing</h3>
+    <div class="proj-list">
+      {% for p in ongoing %}
+      <div class="proj-card">
+        <h4>{{ p.title }}</h4>
+        <p class="proj-meta">{{ p.funder }} · {{ p.period }}</p>
+        {% if p.summary %}<p class="proj-summary">{{ p.summary }}</p>{% endif %}
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+    {% if done.size > 0 %}
+    <h3 class="proj-group"><span class="dot dot-done"></span>Completed</h3>
+    <div class="proj-list">
+      {% for p in done %}
+      <div class="proj-card proj-done">
+        <h4>{{ p.title }}</h4>
+        <p class="proj-meta">{{ p.funder }} · {{ p.period }}</p>
+        {% if p.summary %}<p class="proj-summary">{{ p.summary }}</p>{% endif %}
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+  </div>
+</section>
+
+<!-- ============ BOARD ============ -->
+<section id="board" class="section">
+  <div class="container">
+    <h2 class="section-title">Board</h2>
+    <div class="tabs" id="boardTabs">
+      <button class="tab active" data-tab="news">News</button>
+      <button class="tab" data-tab="gallery">Gallery</button>
+      <button class="tab" data-tab="course">Course</button>
+    </div>
+
+    <div class="tab-panel active" id="tab-news">
+      {% assign newsItems = site.news | sort: "date" | reverse %}
+      {% if newsItems.size == 0 %}<p class="empty">No news yet.</p>{% endif %}
+      <div class="news-list">
+        {% for n in newsItems %}
+        <details class="news-item">
+          <summary>
+            <span class="news-date">{{ n.date | date: "%Y.%m.%d" }}</span>
+            <span class="news-title">{{ n.title }}</span>
+          </summary>
+          <div class="news-body">
+            {% if n.image %}<img src="{{ n.image | relative_url }}" alt="{{ n.title }}" loading="lazy">{% endif %}
+            {{ n.content | markdownify }}
+          </div>
+        </details>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="tab-panel" id="tab-gallery">
+      {% assign galleryItems = site.gallery | sort: "date" | reverse %}
+      {% if galleryItems.size == 0 %}<p class="empty">No photos yet.</p>{% endif %}
+      <div class="gallery-grid">
+        {% for g in galleryItems %}
+        <figure class="gallery-item" data-full="{{ g.image | relative_url }}">
+          <img src="{{ g.image | relative_url }}" alt="{{ g.title }}" loading="lazy">
+          <figcaption>{{ g.title }}<span>{{ g.date | date: "%Y.%m.%d" }}</span></figcaption>
+        </figure>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="tab-panel" id="tab-course">
+      {% assign courseItems = site.courses | sort: "order" %}
+      {% if courseItems.size == 0 %}<p class="empty">No courses yet.</p>{% endif %}
+      <div class="course-list">
+        {% for c in courseItems %}
+        <div class="course-card">
+          <h4>{{ c.title }}</h4>
+          <p class="course-meta">{% if c.code %}{{ c.code }} · {% endif %}{{ c.semester }}</p>
+          <div class="course-desc">{{ c.content | markdownify }}</div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CONTACT ============ -->
+<section id="contact" class="section section-dark">
+  <div class="container">
+    <h2 class="section-title">Contact</h2>
+    <div class="contact-grid">
+      <div>
+        <h3>{{ site.data.settings.lab_full_name }}</h3>
+        <p>{{ site.data.settings.department }}<br>{{ site.data.settings.university }}</p>
+        <p>{{ site.data.settings.address }}</p>
+        <p><a href="mailto:{{ site.data.settings.email }}">{{ site.data.settings.email }}</a>{% if site.data.settings.phone != "" %} · {{ site.data.settings.phone }}{% endif %}</p>
+      </div>
+      <div class="recruit-box">
+        <h3>Join ORMS Lab</h3>
+        <p>{{ site.data.settings.recruit_notice }}</p>
+        <a class="btn btn-primary" href="mailto:{{ site.data.settings.email }}">Email Us</a>
+      </div>
+    </div>
+    <p class="footer-note">© {{ 'now' | date: "%Y" }} {{ site.data.settings.lab_name }} · {{ site.data.settings.university }}</p>
+  </div>
+</section>
+
+<div class="lightbox" id="lightbox"><img src="" alt=""><span class="lightbox-close">&times;</span></div>
+
+<script src="{{ '/assets/js/main.js' | relative_url }}"></script>
+</body>
+</html>
