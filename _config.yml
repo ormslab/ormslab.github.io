@@ -4,6 +4,8 @@ url: ""
 baseurl: ""
 
 collections:
+  research:
+      output: false
   members:
     output: false
   publications:
