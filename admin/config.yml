@@ -4,7 +4,7 @@ backend:
   name: github
   repo: ormslab/ormslab.github.io
   branch: main
-  base_url: https://YOUR-OAUTH-PROXY.workers.dev   # <-- change to your OAuth proxy URL
+  base_url: https://sveltia-cms-auth.ormslab2023.workers.dev   # <-- change to your OAuth proxy URL
 
 media_folder: "assets/uploads"
 public_folder: "/assets/uploads"
